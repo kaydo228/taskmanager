@@ -319,7 +319,7 @@ git commit -m "test: add homework acceptance evidence"
 - Consumes: final candidate from Tasks 1–2 and `homework.pdf`.
 - Produces: independent findings without conversation history and explicit project verdicts.
 
-- [ ] **Step 1: Dispatch the clean reviewer**
+- [x] **Step 1: Dispatch the clean reviewer**
 
 Create one reviewer agent with `fork_turns="none"` and this complete task:
 
@@ -327,7 +327,7 @@ Create one reviewer agent with `fork_turns="none"` and this complete task:
 Audit /Users/alphis/Desktop/PROJECTS/TestTask against /Users/alphis/Desktop/PROJECTS/TestTask/homework.pdf. Focus on the mandatory cycle, "Что сдавать", Frontend minimum requirements/pages 9–10, evaluation criteria, and page 22 checklist. Inspect the repository and run read-only checks, but modify nothing. Do not trust README claims unless evidence exists. Return: (1) blocking findings ordered by severity with exact file paths/evidence, (2) requirements that are demonstrably satisfied, (3) items impossible to verify, and (4) final submission-readiness verdict. You have no conversation history; treat the repository as a fresh review.
 ```
 
-- [ ] **Step 2: Preserve the report and decide every finding**
+- [x] **Step 2: Preserve the report and decide every finding**
 
 Create `docs/independent-audit.md` with:
 
@@ -340,11 +340,11 @@ Create `docs/independent-audit.md` with:
 
 Use `принято`, `исправлено`, or `отклонено`; no finding may disappear.
 
-- [ ] **Step 3: Handle accepted findings minimally**
+- [x] **Step 3: Handle accepted findings minimally**
 
 For documentation/evidence findings, update the named document and matrix row directly. For a functional behavior finding, first write the smallest failing test, run it to verify the expected failure, implement one minimal root-cause fix, and rerun the focused and full suites. Do not implement unrelated suggestions.
 
-- [ ] **Step 4: Commit the independent audit**
+- [x] **Step 4: Commit the independent audit**
 
 Run formatting and diff checks, then:
 
@@ -397,7 +397,7 @@ pnpm --filter @taskflow/dashboard exec playwright test
 git diff --check
 ```
 
-Expected: repository gate exits `0`, 33 unit/component tests and 4 Playwright tests pass, and only the known Vite chunk warning remains.
+Expected: repository gate exits `0`, 33 unit/component tests and 6 Playwright tests pass, and only the known Vite chunk warning remains.
 
 - [ ] **Step 3: Close the live documents**
 
