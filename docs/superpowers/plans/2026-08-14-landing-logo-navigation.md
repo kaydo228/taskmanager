@@ -1,6 +1,6 @@
 # Landing Logo Navigation Fix Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Make the dashboard logo open the locally running landing page immediately and allow deployments to override that URL.
 
@@ -29,7 +29,7 @@
 - Consumes: optional Vite build variable `import.meta.env.VITE_LANDING_URL`.
 - Produces: `landingUrl: string` and a `taskflow.` brand anchor whose `href` uses it.
 
-- [ ] **Step 1: Add the failing behavior assertion**
+- [x] **Step 1: Add the failing behavior assertion**
 
 Add this assertion immediately after `render(<BoardPage />)` in the existing test:
 
@@ -42,7 +42,7 @@ expect(screen.getByRole('link', { name: 'taskflow.' })).toHaveAttribute(
 
 This catches a brand destination that disagrees with the landing application's configured local port.
 
-- [ ] **Step 2: Run the focused test and verify RED**
+- [x] **Step 2: Run the focused test and verify RED**
 
 Run:
 
@@ -52,7 +52,7 @@ pnpm --filter @taskflow/dashboard test -- src/pages/board-page.test.tsx
 
 Expected: FAIL because the received `href` is `http://localhost:3000`.
 
-- [ ] **Step 3: Implement the minimal configurable URL**
+- [x] **Step 3: Implement the minimal configurable URL**
 
 Add beside the imports in `board-page.tsx`:
 
@@ -67,7 +67,7 @@ Then change only the brand anchor:
 <a className="dashboard-page__brand" href={landingUrl}>
 ```
 
-- [ ] **Step 4: Run focused and dashboard tests and verify GREEN**
+- [x] **Step 4: Run focused and dashboard tests and verify GREEN**
 
 Run:
 
@@ -78,7 +78,7 @@ pnpm --filter @taskflow/dashboard test
 
 Expected: the focused test and all dashboard tests PASS.
 
-- [ ] **Step 5: Commit the behavior fix**
+- [x] **Step 5: Commit the behavior fix**
 
 ```bash
 git add apps/dashboard/src/pages/board-page.tsx apps/dashboard/src/pages/board-page.test.tsx
@@ -100,11 +100,11 @@ git commit -m "fix: correct landing logo navigation"
 - Consumes: the corrected brand link and the two dev servers started by `pnpm dev`.
 - Produces: browser evidence, required command evidence, and a truthful completed session record.
 
-- [ ] **Step 1: Verify the real cross-application navigation**
+- [x] **Step 1: Verify the real cross-application navigation**
 
 Run `pnpm dev`, open `http://127.0.0.1:5173/board`, click the `taskflow.` logo, and verify the final URL is `http://localhost:3001/` and the landing heading is visible. Check the browser console for errors.
 
-- [ ] **Step 2: Run the repository gate**
+- [x] **Step 2: Run the repository gate**
 
 Run separately:
 
@@ -117,7 +117,7 @@ pnpm format:check
 
 Expected: all commands exit `0`; record the existing Vite bundle-size warning if it remains.
 
-- [ ] **Step 3: Update documentation and review the diff**
+- [x] **Step 3: Update documentation and review the diff**
 
 Set session 10 to `завершена`, record RED/GREEN and browser evidence, and update `sessions/STATE.md` with the configurable landing URL. Mark every plan checkbox complete, then run:
 
@@ -128,7 +128,7 @@ git status --short --branch
 
 Expected: no whitespace errors and only the approved navigation fix, tests, plan, and session documentation differ from the last pushed `main`.
 
-- [ ] **Step 4: Commit and push the completed session**
+- [x] **Step 4: Commit and push the completed session**
 
 ```bash
 git add docs/superpowers/plans/2026-08-14-landing-logo-navigation.md sessions/session-10.md sessions/STATE.md
