@@ -1,6 +1,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { Button, Dropdown } from '@taskflow/shared/ui';
 import type { TaskPriority } from '@/entities/task';
+import { TaskDescriptionEditor } from './task-description-editor';
 
 const priorityOptions = [
   { label: 'Низкий', value: 'low' },
@@ -51,10 +52,20 @@ export function TaskForm({ defaultValues, onSubmit }: TaskFormProps) {
         ) : null}
       </label>
 
-      <label className="ui-field" htmlFor="task-description">
-        <span>Описание</span>
-        <textarea id="task-description" rows={4} {...register('description')} />
-      </label>
+      <div className="ui-field">
+        <span id="task-description-label">Описание</span>
+        <Controller
+          control={control}
+          name="description"
+          render={({ field }) => (
+            <TaskDescriptionEditor
+              onBlur={field.onBlur}
+              onChange={field.onChange}
+              value={field.value}
+            />
+          )}
+        />
+      </div>
 
       <div className="task-form__grid">
         <Controller

@@ -39,4 +39,31 @@ describe('TaskForm', () => {
       expect.objectContaining({ priority: 'high' }),
     );
   });
+
+  it('submits formatted editor content through the existing string field', async () => {
+    const onSubmit = vi.fn();
+    const user = userEvent.setup();
+    const { container } = render(<TaskForm onSubmit={onSubmit} />);
+
+    await user.type(
+      screen.getByLabelText('Название задачи'),
+      'Описание релиза',
+    );
+    fireEvent.change(screen.getByLabelText('Срок'), {
+      target: { value: '2026-08-20' },
+    });
+    await user.type(
+      screen.getByRole('textbox', { name: 'Описание' }),
+      'Новый текст',
+    );
+    await user.click(screen.getByRole('button', { name: 'Сохранить' }));
+
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual(
+      expect.objectContaining({
+        description: expect.stringMatching(/^tiptap:/),
+        title: 'Описание релиза',
+      }),
+    );
+    expect(container.querySelector('textarea')).not.toBeInTheDocument();
+  });
 });
