@@ -1,0 +1,15 @@
+{
+  "name": "@taskflow/shared",
+  "version": "1.0.0",
+  "private": true,
+  "exports": {
+    "./ui": "./src/ui/index.ts"
+  },
+  "peerDependencies": {
+    "react": "19.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.18",
+    "react": "19.2.8"
+  }
+}
