@@ -48,7 +48,7 @@
 - Consumes: package scripts, current architecture, `homework.pdf`, session evidence, screenshots, and Git history.
 - Produces: clean-machine instructions and a one-to-one requirement evidence map.
 
-- [ ] **Step 1: Capture the immutable Part I checksum**
+- [x] **Step 1: Capture the immutable Part I checksum**
 
 Run:
 
@@ -62,7 +62,7 @@ Expected literal result:
 780f0ea9f156f64fd30b960bbee1433d1988b078ff4244559dbcc3122e6edcff  -
 ```
 
-- [ ] **Step 2: Replace README with actual project instructions**
+- [x] **Step 2: Replace README with actual project instructions**
 
 Write `README.md` with these sections and facts:
 
@@ -129,7 +129,7 @@ pnpm --filter @taskflow/dashboard exec playwright test
 
 Use fenced `bash` blocks for commands and repository-relative Markdown links for evidence.
 
-- [ ] **Step 3: Tighten only Part II of AGENTS.md**
+- [x] **Step 3: Tighten only Part II of AGENTS.md**
 
 Under `Как запускать и проверять`, add:
 
@@ -152,7 +152,7 @@ Under `Что проверить перед финальным ответом`, 
 
 Remove the older generic states bullet so the check is not duplicated. Do not modify any text before `# Часть II. Настройки проекта`.
 
-- [ ] **Step 4: Create the complete requirements matrix**
+- [x] **Step 4: Create the complete requirements matrix**
 
 Create `docs/submission-requirements.md` with sections `Обязательная часть`, `Frontend`, `Состав сдачи`, and `Финальный чек-лист`. Use columns:
 
@@ -184,11 +184,11 @@ Include these explicit rows:
 
 At the top define statuses. At the bottom add `Исторические пробелы` stating that missing artifacts were not reconstructed.
 
-- [ ] **Step 5: Mark verified SPEC acceptance criteria complete**
+- [x] **Step 5: Mark verified SPEC acceptance criteria complete**
 
 Change each `- [ ]` under `## Критерии приёмки` in `SPEC.md` to `- [x]`. Do not edit any criterion wording. The existing test/browser evidence covers all 12 product criteria; the homework submission gaps belong in the matrix, not the product spec.
 
-- [ ] **Step 6: Verify documentation integrity**
+- [x] **Step 6: Verify documentation integrity**
 
 Run:
 
@@ -202,7 +202,7 @@ git diff --check
 
 Expected: Part I checksum remains `780f0ea9...edcff`; placeholder search returns no matches; formatting and whitespace checks exit `0`.
 
-- [ ] **Step 7: Commit the submission documentation**
+- [x] **Step 7: Commit the submission documentation**
 
 ```bash
 git add README.md AGENTS.md SPEC.md docs/submission-requirements.md sessions/session-11.md
