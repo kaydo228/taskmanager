@@ -1,6 +1,6 @@
 # Rich Text Editor Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Replace the task description textarea with a styled Tiptap WYSIWYG editor while preserving the existing `Task.description: string` localStorage contract and rendering formatted descriptions safely in task cards.
 
@@ -57,7 +57,7 @@
 - Consumes: stored `Task.description: string`.
 - Produces: `TaskDescriptionDocument`, `toTaskDescriptionDocument(value: string)`, `serializeTaskDescription(document: TaskDescriptionDocument)`, and `isSafeTaskLink(value: string)`.
 
-- [ ] **Step 1: Install the four approved exact dependencies**
+- [x] **Step 1: Install the four approved exact dependencies**
 
 Run:
 
@@ -67,7 +67,7 @@ pnpm --filter @taskflow/dashboard add --save-exact @tiptap/react@3.30.1 @tiptap/
 
 Expected: `apps/dashboard/package.json` lists all four packages as `3.30.1`, and `pnpm-lock.yaml` resolves the same Tiptap release family.
 
-- [ ] **Step 2: Write the failing codec tests**
+- [x] **Step 2: Write the failing codec tests**
 
 Create `task-description.test.ts` with literal expectations independent of the implementation:
 
@@ -162,7 +162,7 @@ describe('task description codec', () => {
 });
 ```
 
-- [ ] **Step 3: Run the codec tests and verify RED**
+- [x] **Step 3: Run the codec tests and verify RED**
 
 Run:
 
@@ -172,7 +172,7 @@ pnpm --filter @taskflow/dashboard test -- src/entities/task/model/task-descripti
 
 Expected: FAIL because `./task-description` does not exist.
 
-- [ ] **Step 4: Implement the minimal validated codec**
+- [x] **Step 4: Implement the minimal validated codec**
 
 Create a recursive structural type with `type`, optional `attrs`, `content`, `marks`, and `text`. Use these exact allowlists:
 
@@ -236,7 +236,7 @@ export function toTaskDescriptionDocument(
 
 `isTaskDescriptionDocument` must recursively reject unknown node/mark types, require `doc` at the root, require string `text` for text nodes, allow only heading levels `2` and `3`, and accept link marks only when their `href` passes `isSafeTaskLink`. `plainTextDocument('')` returns `{ type: 'doc', content: [{ type: 'paragraph' }] }`; non-empty text becomes one text node. Export the four public symbols from `apps/dashboard/src/entities/task/index.ts`.
 
-- [ ] **Step 5: Run codec and dashboard tests and verify GREEN**
+- [x] **Step 5: Run codec and dashboard tests and verify GREEN**
 
 Run:
 
@@ -247,7 +247,7 @@ pnpm --filter @taskflow/dashboard test
 
 Expected: codec tests PASS and all existing dashboard tests PASS.
 
-- [ ] **Step 6: Commit the codec checkpoint**
+- [x] **Step 6: Commit the codec checkpoint**
 
 ```bash
 git add apps/dashboard/package.json pnpm-lock.yaml apps/dashboard/src/entities/task/model/task-description.ts apps/dashboard/src/entities/task/model/task-description.test.ts apps/dashboard/src/entities/task/index.ts
@@ -268,7 +268,7 @@ git commit -m "feat: add task description codec"
 - Consumes: `value: string`, `onChange(value: string): void`, optional `onBlur(): void`; codec functions from Task 1.
 - Produces: `TaskDescriptionEditor`, an accessible textbox named `Описание` and toolbar commands with Russian accessible names.
 
-- [ ] **Step 1: Write failing editor behavior tests**
+- [x] **Step 1: Write failing editor behavior tests**
 
 Use the real Tiptap component, not a mock. Cover these observable behaviors:
 
@@ -328,7 +328,7 @@ it('shows a local error for an unsafe link and closes the panel with Escape', as
 
 Add one synchronization test: rerender from `value="Первый"` to `value="Второй"` and assert the textbox displays `Второй` without calling `onChange` during initialization.
 
-- [ ] **Step 2: Run editor tests and verify RED**
+- [x] **Step 2: Run editor tests and verify RED**
 
 Run:
 
@@ -338,7 +338,7 @@ pnpm --filter @taskflow/dashboard test -- src/features/task-form/ui/task-descrip
 
 Expected: FAIL because `TaskDescriptionEditor` does not exist.
 
-- [ ] **Step 3: Implement the editor and toolbar**
+- [x] **Step 3: Implement the editor and toolbar**
 
 Configure one editor instance with:
 
@@ -402,7 +402,7 @@ Render command buttons with `type="button"`, `aria-label`, `title`, `aria-presse
 
 The link button opens `.task-editor__link-panel`, prefilled from `editor.getAttributes('link').href`. `Применить ссылку` validates with `isSafeTaskLink`, then runs `editor.chain().focus().extendMarkRange('link').setLink({ href }).run()`. `Удалить ссылку` runs `unsetLink()`. Escape clears the error, closes the panel, and calls `editor.commands.focus()`.
 
-- [ ] **Step 4: Run editor tests and verify GREEN**
+- [x] **Step 4: Run editor tests and verify GREEN**
 
 Run:
 
@@ -412,7 +412,7 @@ pnpm --filter @taskflow/dashboard test -- src/features/task-form/ui/task-descrip
 
 Expected: all editor tests PASS without console warnings.
 
-- [ ] **Step 5: Commit the editor checkpoint**
+- [x] **Step 5: Commit the editor checkpoint**
 
 ```bash
 git add apps/dashboard/src/features/task-form/ui/task-description-editor.tsx apps/dashboard/src/features/task-form/ui/task-description-editor.test.tsx
@@ -433,7 +433,7 @@ git commit -m "feat: add rich text editor"
 - Consumes: `TaskDescriptionEditor` from Task 2 and existing `TaskFormValues.description: string`.
 - Produces: unchanged `TaskFormValues`; formatted content arrives in `onSubmit` as the prefixed string.
 
-- [ ] **Step 1: Add a failing form submission test**
+- [x] **Step 1: Add a failing form submission test**
 
 ```tsx
 it('submits formatted editor content through the existing string field', async () => {
@@ -461,7 +461,7 @@ it('submits formatted editor content through the existing string field', async (
 });
 ```
 
-- [ ] **Step 2: Run the form test and verify RED**
+- [x] **Step 2: Run the form test and verify RED**
 
 Run:
 
@@ -471,7 +471,7 @@ pnpm --filter @taskflow/dashboard test -- src/features/task-form/ui/task-form.te
 
 Expected: FAIL because the current `textarea` returns plain text and the editor toolbar is absent.
 
-- [ ] **Step 3: Replace the textarea with a Controller**
+- [x] **Step 3: Replace the textarea with a Controller**
 
 Use this structure in `TaskForm`:
 
@@ -494,7 +494,7 @@ Use this structure in `TaskForm`:
 
 Import `TaskDescriptionEditor`, retain the existing default `description: ''`, and remove only the `textarea` registration.
 
-- [ ] **Step 4: Run form and dashboard tests and verify GREEN**
+- [x] **Step 4: Run form and dashboard tests and verify GREEN**
 
 Run:
 
@@ -505,7 +505,7 @@ pnpm --filter @taskflow/dashboard test
 
 Expected: the new form test and all prior dashboard tests PASS.
 
-- [ ] **Step 5: Commit the integration checkpoint**
+- [x] **Step 5: Commit the integration checkpoint**
 
 ```bash
 git add apps/dashboard/src/features/task-form/ui/task-form.tsx apps/dashboard/src/features/task-form/ui/task-form.test.tsx
@@ -527,7 +527,7 @@ git commit -m "feat: use editor in task form"
 - Consumes: stored description string and codec from Task 1.
 - Produces: `TaskDescription({ description: string })`, which returns `null` for empty input and safe React content otherwise.
 
-- [ ] **Step 1: Write failing static rendering tests**
+- [x] **Step 1: Write failing static rendering tests**
 
 ```tsx
 it('renders legacy descriptions as text', () => {
@@ -562,7 +562,7 @@ it('does not execute or inject malformed stored content', () => {
 
 Add a fourth test asserting `container` is empty for `description=""`.
 
-- [ ] **Step 2: Run renderer tests and verify RED**
+- [x] **Step 2: Run renderer tests and verify RED**
 
 Run:
 
@@ -572,7 +572,7 @@ pnpm --filter @taskflow/dashboard test -- src/entities/task/ui/task-description.
 
 Expected: FAIL because `TaskDescription` does not exist.
 
-- [ ] **Step 3: Implement static rendering and card integration**
+- [x] **Step 3: Implement static rendering and card integration**
 
 Use `renderToReactElement` from `@tiptap/static-renderer/pm/react` and the same StarterKit nodes. Configure link attributes with `target="_blank"` and `rel="noopener noreferrer"`. The component boundary is:
 
@@ -610,7 +610,7 @@ export function TaskDescription({ description }: { description: string }) {
 
 Replace `{task.description ? <p>{task.description}</p> : null}` in `TaskCard` with `<TaskDescription description={task.description} />`.
 
-- [ ] **Step 4: Run renderer, card, and dashboard tests and verify GREEN**
+- [x] **Step 4: Run renderer, card, and dashboard tests and verify GREEN**
 
 Run:
 
@@ -621,7 +621,7 @@ pnpm --filter @taskflow/dashboard test
 
 Expected: renderer/card tests and the complete dashboard suite PASS.
 
-- [ ] **Step 5: Commit the rendering checkpoint**
+- [x] **Step 5: Commit the rendering checkpoint**
 
 ```bash
 git add apps/dashboard/src/entities/task/ui/task-description.tsx apps/dashboard/src/entities/task/ui/task-description.test.tsx apps/dashboard/src/entities/task/ui/task-card.tsx
@@ -644,7 +644,7 @@ git commit -m "feat: render rich task descriptions"
 - Consumes: editor/card class names from Tasks 2 and 4.
 - Produces: Taskflow visual styling, minimum 160 px editor area, wrapping toolbar, compact formatted card content, and persistent browser behavior.
 
-- [ ] **Step 1: Write the failing end-to-end editor test**
+- [x] **Step 1: Write the failing end-to-end editor test**
 
 ```ts
 test('creates, persists, and edits a formatted task without horizontal overflow', async ({
@@ -684,7 +684,7 @@ test('creates, persists, and edits a formatted task without horizontal overflow'
 });
 ```
 
-- [ ] **Step 2: Run the end-to-end test and verify RED**
+- [x] **Step 2: Run the end-to-end test and verify RED**
 
 Run:
 
@@ -694,7 +694,7 @@ pnpm --filter @taskflow/dashboard exec playwright test e2e/board.spec.ts -g "cre
 
 Expected: FAIL on missing editor styles or formatted card output.
 
-- [ ] **Step 3: Implement the responsive Taskflow styling**
+- [x] **Step 3: Implement the responsive Taskflow styling**
 
 Remove `.task-form textarea` and add these concrete style groups:
 
@@ -800,7 +800,7 @@ Remove `.task-form textarea` and add these concrete style groups:
 
 At `max-width: 480px`, make `.task-editor__link-panel` a single column and keep its buttons at least 40 px high. Add reduced-motion rules that remove editor transitions under `prefers-reduced-motion: reduce`.
 
-- [ ] **Step 4: Run browser tests and verify GREEN**
+- [x] **Step 4: Run browser tests and verify GREEN**
 
 Run:
 
@@ -810,7 +810,7 @@ pnpm --filter @taskflow/dashboard exec playwright test e2e/board.spec.ts
 
 Expected: the existing drag test and new editor flow PASS.
 
-- [ ] **Step 5: Perform visual and keyboard verification**
+- [x] **Step 5: Perform visual and keyboard verification**
 
 Open `/tasks/new`, create formatted heading/list/link/code samples, and verify:
 
@@ -822,7 +822,7 @@ Open `/tasks/new`, create formatted heading/list/link/code samples, and verify:
 
 Save screenshots as `sessions/session-9-editor-360.png` and `sessions/session-9-editor-1440.png`.
 
-- [ ] **Step 6: Commit the visual checkpoint**
+- [x] **Step 6: Commit the visual checkpoint**
 
 ```bash
 git add apps/dashboard/src/app/styles.css apps/dashboard/e2e/board.spec.ts sessions/session-9-editor-360.png sessions/session-9-editor-1440.png
@@ -844,7 +844,7 @@ git commit -m "feat: style rich text descriptions"
 - Consumes: all implementation and verification output from Tasks 1–5.
 - Produces: a truthful session verdict and current project state.
 
-- [ ] **Step 1: Append the dependency record to TOOLS.md**
+- [x] **Step 1: Append the dependency record to TOOLS.md**
 
 Append exactly one entry for the Tiptap family:
 
@@ -858,7 +858,7 @@ Append exactly one entry for the Tiptap family:
 - **Проверка:** unit/integration-тесты Vitest, браузерный сценарий Playwright и `pnpm build`.
 ```
 
-- [ ] **Step 2: Run the full required verification**
+- [x] **Step 2: Run the full required verification**
 
 Run each command separately and preserve complete output in `sessions/session-9.md`:
 
@@ -872,11 +872,11 @@ pnpm --filter @taskflow/dashboard exec playwright test
 
 Expected: every command exits 0. The known Vite dashboard bundle-size warning may remain and must be recorded rather than hidden.
 
-- [ ] **Step 3: Update the session and state documents**
+- [x] **Step 3: Update the session and state documents**
 
 Set session 9 to `завершена`, list every created/modified file, record the RED and GREEN commands, browser evidence, errors encountered, and the final verdict. Update `sessions/STATE.md` to session 9 with Tiptap in active tools, rich descriptions in completed work, current bundle warning in known issues, and no active functional work.
 
-- [ ] **Step 4: Review the final diff**
+- [x] **Step 4: Review the final diff**
 
 Run:
 
@@ -888,7 +888,7 @@ git diff --stat HEAD
 
 Expected: no whitespace errors; only editor-related source, tests, dependency metadata, screenshots, and session documentation are changed.
 
-- [ ] **Step 5: Commit the completed session**
+- [x] **Step 5: Commit the completed session**
 
 ```bash
 git add sessions/TOOLS.md sessions/session-9.md sessions/STATE.md docs/superpowers/plans/2026-08-14-rich-text-editor.md

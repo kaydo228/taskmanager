@@ -27,3 +27,11 @@
 ---
 
 `[Ваши записи — ниже.]`
+
+## 2026-08-14 · Сессия 9 · Tiptap v3.30.1
+
+- **Тип:** библиотека
+- **Установка:** `pnpm --filter @taskflow/dashboard add --save-exact @tiptap/react@3.30.1 @tiptap/pm@3.30.1 @tiptap/starter-kit@3.30.1 @tiptap/static-renderer@3.30.1`
+- **Зачем:** WYSIWYG-редактор описания задачи и безопасный статический React-рендеринг форматирования в карточке.
+- **Область:** `apps/dashboard`
+- **Проверка:** unit/integration-тесты Vitest, браузерный сценарий Playwright и `pnpm build`.

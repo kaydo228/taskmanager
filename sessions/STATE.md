@@ -4,7 +4,7 @@
 > изменений — старое перезаписывается. Первым делом в новой сессии агент читает
 > именно этот файл.
 
-**Обновлено:** `2026-08-14, сессия 8`
+**Обновлено:** `2026-08-14, сессия 9`
 
 ## Готово
 
@@ -22,6 +22,12 @@
 - При `prefers-reduced-motion` секции сразу получают видимое состояние без opacity/transform-перехода; поведение защищено компонентным тестом.
 - Лендинг проверен в браузере на 1440×900 и 360×800 без ошибок консоли; снимки лежат в `sessions/session-8-landing-1440.png` и `sessions/session-8-landing-360.png`.
 - Generated `apps/landing/next-env.d.ts` исключён из Prettier через `.prettierignore`, поэтому `next build` больше не делает последующий `format:check` красным.
+- Поле описания задачи заменено WYSIWYG-редактором Tiptap с абзацами, H2/H3, акцентами, списками, цитатами, кодом, HTTP(S)-ссылками и undo/redo; toolbar доступен с клавиатуры и адаптивно переносится на 360 px.
+- Форматированный документ хранится внутри прежнего `Task.description: string` с префиксом `tiptap:`; localStorage, ключ, Zod-схема и форма массива задач не изменены. Старые текстовые и повреждённые описания безопасно отображаются как текст.
+- Карточки используют статический React-рендерер Tiptap без `dangerouslySetInnerHTML`; опасные протоколы ссылок отбрасываются валидатором.
+- Расчёт вставки drag-and-drop сравнивает центр drag overlay с центром целевой карточки, поэтому карточки разной высоты надёжно вставляются между соседями.
+- Редактор проверен созданием, reload, редактированием, Tab/Space/Enter/Esc и отсутствием горизонтального overflow; снимки лежат в `sessions/session-9-editor-360.png` и `sessions/session-9-editor-1440.png`.
+- `pnpm build`, `pnpm test` (30 dashboard + 3 landing теста), `pnpm lint`, `pnpm format:check` и 3 Playwright e2e проходят.
 
 ## В работе
 
@@ -33,7 +39,7 @@
 
 ## Активные инструменты
 
-- React, Motion, `@dnd-kit/core`, `@dnd-kit/sortable`, Vitest, Playwright, ESLint и Prettier.
+- React, Motion, Tiptap `3.30.1`, `@dnd-kit/core`, `@dnd-kit/sortable`, Vitest, Playwright, ESLint и Prettier.
 
 ## Известные проблемы
 
