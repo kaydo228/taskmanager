@@ -12,6 +12,9 @@ import { moveTask } from '@/features/move-task/model/move-task';
 import { EmptyBoard } from '@/widgets/empty-board/ui/empty-board';
 import { TaskBoard } from '@/widgets/task-board/ui/task-board';
 
+export const landingUrl =
+  import.meta.env.VITE_LANDING_URL ?? 'http://localhost:3001';
+
 export function BoardPage() {
   const [tasks, setTasks] = useState<Task[]>(() =>
     loadTasks(window.localStorage),
@@ -49,7 +52,7 @@ export function BoardPage() {
 
   return (
     <main className="dashboard-page">
-      <a className="dashboard-page__brand" href="http://localhost:3000">
+      <a className="dashboard-page__brand" href={landingUrl}>
         taskflow<span>.</span>
       </a>
       <section className="dashboard-page__heading">

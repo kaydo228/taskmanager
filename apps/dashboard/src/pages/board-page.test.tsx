@@ -10,6 +10,10 @@ describe('BoardPage', () => {
     const user = userEvent.setup();
     render(<BoardPage />);
 
+    expect(screen.getByRole('link', { name: 'taskflow.' })).toHaveAttribute(
+      'href',
+      'http://localhost:3001',
+    );
     expect(screen.getByText('Доска пока пуста')).toBeVisible();
     const createTaskLink = screen.getByRole('link', {
       name: 'Создать задачу',
