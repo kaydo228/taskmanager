@@ -205,6 +205,7 @@ export function TaskDescriptionEditor({
             ),
       );
     },
+    shouldRerenderOnTransaction: true,
   });
 
   useEffect(() => {
@@ -275,6 +276,7 @@ export function TaskDescriptionEditor({
       <div
         aria-label="Форматирование описания"
         className="task-editor__toolbar"
+        role="toolbar"
       >
         <ToolbarButton
           icon="paragraph"

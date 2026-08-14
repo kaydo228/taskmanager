@@ -58,9 +58,12 @@ export function TaskBoard({ onDelete, onEdit, onMove, tasks }: TaskBoardProps) {
 
     if (!targetStatus) return;
 
-    const activeTop = active.rect.current.translated?.top ?? 0;
+    const activeRect = active.rect.current.translated;
+    const activeCenter = activeRect
+      ? activeRect.top + activeRect.height / 2
+      : 0;
     const insertAfter =
-      Boolean(overTask) && activeTop > over.rect.top + over.rect.height / 2;
+      Boolean(overTask) && activeCenter > over.rect.top + over.rect.height / 2;
 
     onMove(String(active.id), targetStatus, overTask?.id, insertAfter);
   }

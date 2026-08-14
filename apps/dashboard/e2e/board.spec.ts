@@ -26,7 +26,7 @@ test('drops a task between cards and persists its position', async ({
   const source = page.getByRole('button', {
     name: 'Перетащить «План релиза»',
   });
-  const target = page.getByText('Настроить тесты');
+  const target = page.locator('.task-card', { hasText: 'Настроить тесты' });
   const sourceBox = await source.boundingBox();
   const targetBox = await target.boundingBox();
 
@@ -40,7 +40,7 @@ test('drops a task between cards and persists its position', async ({
   await page.mouse.down();
   await page.mouse.move(
     targetBox.x + targetBox.width / 2,
-    targetBox.y + targetBox.height - 4,
+    targetBox.y + targetBox.height / 2 + 20,
     {
       steps: 12,
     },
@@ -59,4 +59,69 @@ test('drops a task between cards and persists its position', async ({
   await expect(page.getByLabel('В работе').locator('.task-card h3')).toHaveText(
     ['Настроить тесты', 'План релиза', 'Оформить лендинг', 'Проверить фокус'],
   );
+});
+
+test('creates, persists, and edits a formatted task without horizontal overflow', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.getByRole('link', { name: 'Создать задачу' }).click();
+  const titleInput = page.getByLabel('Название задачи');
+  await titleInput.fill('Проверить редактор');
+  await titleInput.focus();
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('button', { name: 'Абзац' })).toBeFocused();
+  await page.getByLabel('Срок').fill('2026-08-25');
+  const editor = page.locator('.task-editor__content');
+  await editor.click();
+  await page.keyboard.type('Важное описание');
+  await editor.selectText();
+  const boldButton = page.getByRole('button', { name: 'Жирный' });
+  await boldButton.click();
+  await expect(boldButton).toHaveAttribute('aria-pressed', 'true');
+  await boldButton.focus();
+  await page.keyboard.press('Space');
+  await expect(boldButton).toHaveAttribute('aria-pressed', 'false');
+  await boldButton.focus();
+  await page.keyboard.press('Enter');
+  await expect(boldButton).toHaveAttribute('aria-pressed', 'true');
+
+  await page.getByRole('button', { name: 'Ссылка' }).click();
+  const linkInput = page.getByRole('textbox', { name: 'Адрес ссылки' });
+  await expect(linkInput).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(linkInput).toBeHidden();
+  await editor.press('ArrowRight');
+
+  await expect(editor).toHaveCSS('min-height', '160px');
+  expect(
+    await page
+      .locator('.task-editor__toolbar')
+      .evaluate((element) => element.scrollWidth <= element.clientWidth),
+  ).toBe(true);
+  await page.screenshot({
+    fullPage: true,
+    path: '../../sessions/session-9-editor-360.png',
+  });
+
+  await page.getByRole('button', { name: 'Сохранить' }).click();
+  const card = page.locator('.task-card', { hasText: 'Проверить редактор' });
+  await expect(card.locator('strong')).toHaveText('Важное описание');
+
+  await page.reload();
+  await expect(card.locator('strong')).toHaveText('Важное описание');
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page
+    .getByRole('button', {
+      name: 'Редактировать «Проверить редактор»',
+    })
+    .click();
+  await expect(page.getByRole('textbox', { name: 'Описание' })).toContainText(
+    'Важное описание',
+  );
+  await expect(page.getByRole('dialog')).toHaveCSS('opacity', '1');
+  await page.screenshot({
+    fullPage: true,
+    path: '../../sessions/session-9-editor-1440.png',
+  });
 });

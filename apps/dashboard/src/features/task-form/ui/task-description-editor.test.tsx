@@ -9,6 +9,9 @@ describe('TaskDescriptionEditor', () => {
     const user = userEvent.setup();
     render(<TaskDescriptionEditor onChange={onChange} value="" />);
 
+    expect(
+      screen.getByRole('toolbar', { name: 'Форматирование описания' }),
+    ).toBeVisible();
     await user.click(screen.getByRole('button', { name: 'Жирный' }));
     await user.type(screen.getByRole('textbox', { name: 'Описание' }), 'Важно');
 
@@ -36,6 +39,18 @@ describe('TaskDescriptionEditor', () => {
     await user.keyboard('{Control>}a{/Control}{Backspace}');
 
     await waitFor(() => expect(onChange).toHaveBeenLastCalledWith(''));
+  });
+
+  it('updates the pressed state immediately when formatting is toggled', async () => {
+    const user = userEvent.setup();
+    render(<TaskDescriptionEditor onChange={vi.fn()} value="" />);
+    const boldButton = screen.getByRole('button', { name: 'Жирный' });
+
+    expect(boldButton).toHaveAttribute('aria-pressed', 'false');
+    await user.click(boldButton);
+    expect(boldButton).toHaveAttribute('aria-pressed', 'true');
+    await user.click(boldButton);
+    expect(boldButton).toHaveAttribute('aria-pressed', 'false');
   });
 
   it('shows a local error for an unsafe link and closes the panel with Escape', async () => {
