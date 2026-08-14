@@ -12,6 +12,19 @@ test('empty board loads demo tasks and persists after reload', async ({
   await expect(page.getByText('Доска пока пуста')).toBeVisible();
   await page.getByRole('button', { name: 'Загрузить демо-данные' }).click();
   await expect(page.getByText('План релиза')).toBeVisible();
+  await expect(page.getByText('Демо-задачи загружены')).toBeHidden({
+    timeout: 8_000,
+  });
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.screenshot({
+    fullPage: true,
+    path: '../../screenshots/submission-board-360.png',
+  });
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.screenshot({
+    fullPage: true,
+    path: '../../screenshots/submission-board-1440.png',
+  });
   await page.reload();
   await expect(page.getByText('План релиза')).toBeVisible();
   await page.getByRole('button', { name: 'Очистить доску' }).click();
@@ -124,4 +137,21 @@ test('creates, persists, and edits a formatted task without horizontal overflow'
     fullPage: true,
     path: '../../sessions/session-9-editor-1440.png',
   });
+});
+
+test('recovers from malformed storage and exposes the validation error through the UI', async ({
+  page,
+}) => {
+  await page.evaluate(() =>
+    window.localStorage.setItem('taskflow.tasks', 'not-json'),
+  );
+  await page.reload();
+  await expect(page.getByText('Доска пока пуста')).toBeVisible();
+
+  await page.getByRole('link', { name: 'Создать задачу' }).click();
+  await page.getByRole('button', { name: 'Сохранить' }).click();
+  await expect(page.getByText('Введите название')).toBeVisible();
+  await expect(page.getByLabel('Название задачи')).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('dialog')).toBeHidden();
 });

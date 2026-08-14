@@ -226,7 +226,7 @@ git commit -m "docs: complete homework submission guide"
 - Consumes: existing demo data, form validation, localStorage repository behavior, and Playwright web server.
 - Produces: repeatable browser assertions and same-data responsive screenshots.
 
-- [ ] **Step 1: Add responsive evidence to the populated-board scenario**
+- [x] **Step 1: Add responsive evidence to the populated-board scenario**
 
 After `План релиза` becomes visible and before the existing reload in the first e2e test, add:
 
@@ -243,7 +243,7 @@ await page.screenshot({
 });
 ```
 
-- [ ] **Step 2: Add the missing acceptance scenario**
+- [x] **Step 2: Add the missing acceptance scenario**
 
 Append this test:
 
@@ -268,7 +268,7 @@ test('recovers from malformed storage and exposes the validation error through t
 
 This is a characterization/acceptance test for already implemented behavior; no production change is expected.
 
-- [ ] **Step 3: Run the browser suite and inspect both images**
+- [x] **Step 3: Run the browser suite and inspect both images**
 
 Run:
 
@@ -277,11 +277,11 @@ pnpm --filter @taskflow/dashboard exec playwright test
 file screenshots/submission-board-360.png screenshots/submission-board-1440.png
 ```
 
-Expected: 4 Playwright tests PASS; files report `360 x 800` and `1440 x 900`. Open both with `view_image` and verify no horizontal clipping, overlapping controls, stale drag opacity, or unfinished modal animation.
+Expected: 4 Playwright tests PASS; files report widths `360` and `1440` (full-page heights vary with responsive layout). Open both with `view_image` and verify no horizontal clipping, overlapping controls, stale drag opacity, transient toast, or unfinished modal animation.
 
 If Playwright rewrites a historical session-9 screenshot, restore only that generated diff from current `HEAD` and record the action.
 
-- [ ] **Step 4: Run the full local repository gate**
+- [x] **Step 4: Run the full local repository gate**
 
 Run:
 
@@ -294,7 +294,7 @@ pnpm format:check
 
 Expected: all commands exit `0`; the known dashboard chunk-size warning is recorded, not hidden.
 
-- [ ] **Step 5: Update evidence rows and commit**
+- [x] **Step 5: Update evidence rows and commit**
 
 Change only Task 2-dependent matrix rows from `частично` to `закрыто`, record exact test counts and image paths in session 11, then run `git diff --check` and commit:
 
