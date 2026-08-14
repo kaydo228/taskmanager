@@ -373,7 +373,7 @@ The second `git add` includes only files genuinely changed by accepted findings;
 - Consumes: candidate commits, audit verdict, local verification, and public GitHub access.
 - Produces: final truthful submission and clean-clone evidence.
 
-- [ ] **Step 1: Scan tracked files for likely secrets**
+- [x] **Step 1: Scan tracked files for likely secrets**
 
 Run:
 
@@ -384,7 +384,7 @@ git ls-files | rg '(^|/)(\.env|id_rsa|id_ed25519)(\.|$)' || true
 
 Expected: both commands produce no file paths. Mark the secrets row `закрыто` only after this output.
 
-- [ ] **Step 2: Run final local verification**
+- [x] **Step 2: Run final local verification**
 
 Run fresh:
 
@@ -399,9 +399,9 @@ git diff --check
 
 Expected: repository gate exits `0`, 33 unit/component tests and 6 Playwright tests pass, and only the known Vite chunk warning remains.
 
-- [ ] **Step 3: Close the live documents**
+- [x] **Step 3: Prepare the live documents for publication**
 
-Mark every plan checkbox complete. Set session 11 to `завершена`; record PDF pages reviewed, accepted/rejected audit findings, exact command counts, screenshot inspection, known warning, and remaining historical gaps. Update `sessions/STATE.md` to session 11 with no active functional work and the submission documents/evidence in completed work.
+Mark completed work through this checkpoint. Keep session 11 `в работе` until the public-clone proof exists; record PDF pages reviewed, accepted/rejected audit findings, exact command counts, screenshot inspection, known warning, and remaining historical gaps. Update `sessions/STATE.md` to session 11 with public-clone verification as the only active work.
 
 Run Prettier, the Part I checksum, `git diff --check`, and inspect the complete diff from `origin/main`.
 
@@ -433,7 +433,7 @@ Run the pnpm commands from `$SUBMISSION_CLONE_ROOT/taskmanager`. Expected: clone
 
 - [ ] **Step 6: Record clean-clone proof and push the final documentation commit**
 
-Mark the README/clean-clone and external repository matrix rows `закрыто`. Add the public clone result to session 11, then:
+Mark the README/clean-clone and external repository matrix rows `закрыто`. Add the public clone result to session 11, set the session and `STATE.md` to their final completed state, then:
 
 ```bash
 pnpm exec prettier --write README.md docs/submission-requirements.md sessions/session-11.md
