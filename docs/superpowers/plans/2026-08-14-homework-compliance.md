@@ -405,7 +405,7 @@ Mark completed work through this checkpoint. Keep session 11 `в работе` u
 
 Run Prettier, the Part I checksum, `git diff --check`, and inspect the complete diff from `origin/main`.
 
-- [ ] **Step 4: Commit and push the candidate**
+- [x] **Step 4: Commit and push the candidate**
 
 ```bash
 git add README.md AGENTS.md SPEC.md docs screenshots sessions/STATE.md sessions/session-11.md apps/dashboard/e2e/board.spec.ts
@@ -415,7 +415,7 @@ git push origin main
 
 Expected: push succeeds without force.
 
-- [ ] **Step 5: Clone publicly and execute the README path**
+- [x] **Step 5: Clone publicly and execute the README path**
 
 Create an exact temporary directory with `mktemp -d`, clone without embedding credentials, and run:
 
@@ -431,7 +431,7 @@ pnpm format:check
 
 Run the pnpm commands from `$SUBMISSION_CLONE_ROOT/taskmanager`. Expected: clone and all commands exit `0`. Record the cloned commit SHA and outputs summary. Remove only the exact directory stored in `$SUBMISSION_CLONE_ROOT` after validating that it starts with `/private/tmp/taskflow-submission.`.
 
-- [ ] **Step 6: Record clean-clone proof and push the final documentation commit**
+- [x] **Step 6: Record clean-clone proof and push the final documentation commit**
 
 Mark the README/clean-clone and external repository matrix rows `закрыто`. Add the public clone result to session 11, set the session and `STATE.md` to their final completed state, then:
 
@@ -449,6 +449,6 @@ git rev-parse origin/main
 
 Expected: clean `main...origin/main` and identical SHAs.
 
-- [ ] **Step 7: Remove PDF review intermediates**
+- [x] **Step 7: Remove PDF review intermediates**
 
 Verify `tmp/pdfs/session-11` contains only the rendered/extracted artifacts created during this session, then remove exactly that directory. Confirm `tmp/` no longer appears in `git status`.
