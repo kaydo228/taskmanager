@@ -3,6 +3,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { useEffect, useRef, useState } from 'react';
 import { Badge, Button, Dropdown } from '@taskflow/shared/ui';
 import type { Task, TaskStatus } from '@/entities/task';
+import { TaskDescription } from './task-description';
 
 const statusOptions = [
   { label: 'Нужно сделать', value: 'todo' },
@@ -79,7 +80,7 @@ export function TaskCard({
         </time>
       </div>
       <h3>{task.title}</h3>
-      {task.description ? <p>{task.description}</p> : null}
+      <TaskDescription description={task.description} />
       <div className="task-card__footer">
         <Dropdown
           label={`Статус задачи «${task.title}»`}
